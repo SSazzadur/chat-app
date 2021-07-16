@@ -30,7 +30,7 @@ public class Server implements Runnable {
                     try {
                         BufferedWriter bw = (BufferedWriter) client.get(i);
                         bw.write(data);
-                        bw.write("\r\n");
+                        bw.write("\r");
                         bw.flush();
                     } catch (Exception e) {
                     }
@@ -43,6 +43,8 @@ public class Server implements Runnable {
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Server is running...");
+
         s = new ServerSocket(3003);
         while (true) {
             Socket socket = s.accept();

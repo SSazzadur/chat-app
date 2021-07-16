@@ -42,7 +42,7 @@ public class App extends JFrame implements ActionListener {
         panel.add(user3);
 
         setTitle("Start Menu");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
         setSize(300, 300);
         setLocation(500, 300);

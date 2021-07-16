@@ -1,22 +1,30 @@
 package users;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
 import java.io.*;
 import java.net.*;
 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 public class UserThird extends JFrame implements Runnable {
+    String NAME = "Thor";
+
     JPanel topPanel;
     JTextField t1;
     JButton sendButton;
-    static JTextArea a1;
+    JPanel a1;
 
     BufferedWriter writer;
     BufferedReader reader;
 
     Socket socketClient;
+
+    Box vertical = Box.createVerticalBox();
 
     public UserThird() {
 
@@ -73,12 +81,9 @@ public class UserThird extends JFrame implements Runnable {
         members.setBounds(110, 35, 160, 20);
         topPanel.add(members);
 
-        a1 = new JTextArea();
+        a1 = new JPanel();
         a1.setBounds(5, 75, 440, 570);
         a1.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-        a1.setEditable(false);
-        a1.setLineWrap(true);
-        a1.setWrapStyleWord(true);
         add(a1);
 
         t1 = new JTextField();
@@ -92,10 +97,11 @@ public class UserThird extends JFrame implements Runnable {
         sendLabel.setBounds(390, 655, 50, 40);
         sendLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent ae) {
-                String str = "Thor\n" + t1.getText();
+                String str = NAME + ": " + t1.getText();
                 try {
                     writer.write(str);
-                    writer.write("\r\n");
+
+                    writer.write("\r");
                     writer.flush();
                 } catch (Exception e) {
                 }
@@ -120,11 +126,43 @@ public class UserThird extends JFrame implements Runnable {
 
     }
 
+    public JPanel formatLabel(String msg) {
+        JPanel p3 = new JPanel();
+        p3.setLayout(new BoxLayout(p3, BoxLayout.Y_AXIS));
+
+        JLabel l1 = new JLabel("<html><p style=\"width: 150px\">" + msg + "</p></html>");
+        l1.setBackground(new Color(37, 211, 102));
+        l1.setOpaque(true);
+
+        l1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        l1.setBorder(new EmptyBorder(15, 15, 15, 50));
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        JLabel l2 = new JLabel(sdf.format(cal.getTime()));
+
+        p3.add(l1);
+        p3.add(l2);
+
+        return p3;
+    }
+
     public void run() {
         try {
             String msg = "";
             while ((msg = reader.readLine()) != null) {
-                a1.append(msg + "\n");
+
+                JPanel p2 = formatLabel(msg);
+
+                JPanel right = new JPanel(new BorderLayout());
+                right.add(p2, BorderLayout.LINE_END);
+
+                vertical.add(right);
+                vertical.add(Box.createVerticalStrut(15));
+                a1.add(vertical);
+
+                a1.validate();
             }
         } catch (Exception e) {
         }
