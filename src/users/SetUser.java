@@ -99,6 +99,9 @@ public class SetUser extends JFrame implements Runnable {
         sendLabel.setBounds(390, 655, 50, 40);
         sendLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent ae) {
+                if (t1.getText().equals(""))
+                    return;
+
                 String str = NAME + ": " + t1.getText();
                 try {
                     writer.write(str);
