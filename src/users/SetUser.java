@@ -80,9 +80,14 @@ public class SetUser extends JFrame implements Runnable {
 
     public void messageSection() {
         a1 = new JPanel();
-        a1.setBounds(5, 75, 440, 570);
         a1.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-        add(a1);
+
+        JScrollPane sp = new JScrollPane(a1);
+        sp.setBounds(5, 75, 440, 570);
+        sp.setBorder(BorderFactory.createEmptyBorder());
+        sp.createVerticalScrollBar();
+
+        add(sp);
     }
 
     public void bottomBar() {
